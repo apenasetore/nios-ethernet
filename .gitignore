@@ -1,0 +1,37 @@
+# Quartus build artifacts
+db/
+incremental_db/
+output_files/
+simulation/
+*.bak
+*.jdi
+
+# NIOS II BSP generated files (regenerated via create-this-bsp + make)
+software/lab7_sw_bsp/*
+!software/lab7_sw_bsp/create-this-bsp
+
+# NIOS II app build artifacts
+software/lab7_sw/obj/
+software/lab7_sw/*.elf
+software/lab7_sw/*.map
+software/lab7_sw/*.objdump
+software/lab7_sw/.force_relink
+
+# Eclipse project files
+software/lab7_sw/.cproject
+software/lab7_sw/.project
+software/lab7_sw/.settings/
+
+# QSYS generated files (regenerated from .qsys)
+nios_system/
+nios_system.sopcinfo
+nios_system.bsf
+nios_system.cmp
+nios_system.html
+nios_system_generation*.rpt
+
+# Reference project (not needed)
+DE2-Ethernet-master/
+
+# QSYS editor preferences
+.qsys_edit/

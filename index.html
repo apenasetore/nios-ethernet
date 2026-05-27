@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title>Lab7 - Cliente PC - NIOS II String Processor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 { color: #333; }
+        .config {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .config label { font-weight: bold; }
+        .config input {
+            width: 200px;
+            padding: 6px;
+            margin-left: 10px;
+        }
+        .main-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 30px;
+            font-size: 16px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background: #0055aa; }
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            min-height: 30px;
+            font-family: monospace;
+            font-size: 16px;
+            word-break: break-all;
+        }
+        .original {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            min-height: 30px;
+            font-family: monospace;
+            font-size: 16px;
+            word-break: break-all;
+        }
+        .hex {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .status {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        .error { color: #cc0000; }
+    </style>
+</head>
+<body>
+    <h1>Lab7 - NIOS II String Processor</h1>
+    <p>Cliente HTML local para comunicacao com a placa DE2 via Ethernet.</p>
+
+    <div class="config">
+        <label>IP da placa (obtido via DHCP):</label>
+        <input type="text" id="boardIp" value="192.168.1.100" placeholder="ex: 192.168.1.100">
+    </div>
+
+    <p><strong>Digite uma string (max 100 caracteres):</strong></p>
+    <input type="text" id="inputStr" class="main-input" maxlength="100"
+           placeholder="Digite aqui sua string...">
+    <br>
+    <button onclick="sendString()">Enviar para a placa</button>
+
+    <h3>String original enviada:</h3>
+    <div class="original" id="originalStr"></div>
+    <div class="hex" id="originalHex"></div>
+
+    <h3>String processada recebida (char+1, 0xF7&rarr;0x00):</h3>
+    <div class="result" id="resultStr"></div>
+    <div class="hex" id="resultHex"></div>
+
+    <div class="status" id="status"></div>
+
+    <script>
+    function toHexString(str) {
+        var hex = [];
+        for (var i = 0; i < str.length; i++) {
+            hex.push('0x' + str.charCodeAt(i).toString(16).toUpperCase().padStart(2, '0'));
+        }
+        return hex.join(' ');
+    }
+
+    function sendString() {
+        var ip = document.getElementById('boardIp').value.trim();
+        var str = document.getElementById('inputStr').value;
+        var statusEl = document.getElementById('status');
+
+        if (!ip) {
+            statusEl.innerHTML = '<span class="error">Informe o IP da placa!</span>';
+            return;
+        }
+        if (!str) {
+            statusEl.innerHTML = '<span class="error">Digite uma string!</span>';
+            return;
+        }
+        if (str.length > 100) {
+            str = str.substring(0, 100);
+        }
+
+        document.getElementById('originalStr').textContent = str;
+        document.getElementById('originalHex').textContent = 'Hex: ' + toHexString(str);
+        document.getElementById('resultStr').textContent = '';
+        document.getElementById('resultHex').textContent = '';
+        statusEl.textContent = 'Enviando para ' + ip + '...';
+
+        var url = 'http://' + ip + '/process';
+
+        var x = new XMLHttpRequest();
+        x.open('POST', url, true);
+        x.setRequestHeader('Content-Type', 'text/plain');
+        x.timeout = 10000;
+
+        x.onload = function() {
+            if (x.status === 200) {
+                var result = x.responseText;
+                document.getElementById('resultStr').textContent = result;
+                document.getElementById('resultHex').textContent = 'Hex: ' + toHexString(result);
+                statusEl.textContent = 'Resposta recebida com sucesso!';
+            } else {
+                statusEl.innerHTML = '<span class="error">Erro HTTP: ' + x.status + '</span>';
+            }
+        };
+
+        x.onerror = function() {
+            statusEl.innerHTML = '<span class="error">Erro de conexao. Verifique o IP e a conexao de rede.</span>';
+        };
+
+        x.ontimeout = function() {
+            statusEl.innerHTML = '<span class="error">Timeout - placa nao respondeu em 10s.</span>';
+        };
+
+        x.send(str);
+    }
+
+    document.getElementById('inputStr').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendString();
+    });
+    </script>
+</body>
+</html>

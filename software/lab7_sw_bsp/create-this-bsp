@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# This script creates the BSP for lab7 with uC/OS-II + NicheStack (Ethernet).
+
+BSP_TYPE=ucosii
+BSP_DIR=.
+SOPC_FILE=../../nios_system.sopcinfo
+CPU_NAME=nios2_qsys_0
+
+SKIP_MAKE=
+while [ $# -gt 0 ]
+do
+  case "$1" in
+        --no-make)
+            SKIP_MAKE=1
+            ;;
+  esac
+  shift
+done
+
+cmd="nios2-bsp $BSP_TYPE $BSP_DIR $SOPC_FILE \
+  --cpu-name $CPU_NAME \
+  --set hal.sys_clk_timer timer_0 \
+  --set hal.make.bsp_cflags_debug -g \
+  --set hal.make.bsp_cflags_optimization -Os \
+  --set hal.stderr jtag_uart_0 \
+  --set hal.stdin jtag_uart_0 \
+  --set hal.stdout jtag_uart_0 \
+  --cmd enable_sw_package altera_iniche \
+  --set ucosii.os_max_tasks 10 \
+  --set hal.linker.allow_code_at_reset 0 \
+  --set hal.linker.enable_alt_load 0 \
+  --default_sections_mapping sdram_0"
+
+echo "create-this-bsp: Running \"$cmd\""
+$cmd || {
+    echo "$cmd failed"
+    exit 1
+}
+if [ -z "$SKIP_MAKE" ]; then
+    echo "create-this-bsp: Running make"
+    make
+fi

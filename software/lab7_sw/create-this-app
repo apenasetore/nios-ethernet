@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# This script creates the lab7_sw application.
+
+BSP_DIR=../lab7_sw_bsp
+QUARTUS_PROJECT_DIR=../../
+NIOS2_APP_GEN_ARGS="--elf-name lab7_sw.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-files web_server.c network_utilities.c dm9000a.c alt_error_handler.c"
+
+if [ -z "${SOPC_KIT_NIOS2}" ]
+then
+    echo "Required \$SOPC_KIT_NIOS2 Environmental Variable is not set!"
+    exit 1
+fi
+
+if [ -f ./Makefile ]
+then
+    echo "Application has already been created! Delete Makefile if you want to create a new application makefile"
+    exit 1
+fi
+
+if [ ! -f ${BSP_DIR}/public.mk ]; then
+    pushd ${BSP_DIR} >> /dev/null
+    ./create-this-bsp "$@" || {
+        echo "create-this-bsp failed"
+        exit 1
+    }
+    popd >> /dev/null
+fi
+
+SKIP_MAKE=
+while [ $# -gt 0 ]
+do
+  case "$1" in
+      --no-make)
+          SKIP_MAKE=1
+          ;;
+  esac
+  shift
+done
+
+cmd="nios2-app-generate-makefile --bsp-dir ${BSP_DIR} --set QUARTUS_PROJECT_DIR=${QUARTUS_PROJECT_DIR} ${NIOS2_APP_GEN_ARGS}"
+
+echo "create-this-app: Running \"${cmd}\""
+$cmd || {
+    echo "nios2-app-generate-makefile failed"
+    exit 1
+}
+
+if [ -z "$SKIP_MAKE" ]; then
+    cmd="make"
+    echo "create-this-app: Running \"$cmd\""
+    $cmd || {
+        echo "make failed"
+        exit 1
+    }
+fi
+
+exit 0
