@@ -102,36 +102,36 @@ begin
 	
     u0 : component nios_system
         port map (
-            reset_reset_n                           => KEY(0),                           		     -- reset.reset_n
+            reset_reset_n                           => KEY(0),             -- reset.reset_n
 
-            altpll_0_c0_clk                         => DRAM_CLK, 		                             --                        altpll_0_c0.clk
-				
-				sdram_0_wire_addr                       => DRAM_ADDR, 		 	                     --                       sdram_0_wire.addr
-            sdram_0_wire_ba                         => BA,                         			     --                                   .ba
-            sdram_0_wire_cas_n                      => DRAM_CAS_N,			                     --                                   .cas_n
-            sdram_0_wire_cke                        => DRAM_CKE,			                     --                                   .cke
-            sdram_0_wire_cs_n                       => DRAM_CS_N,               			     --                                   .cs_n
-            sdram_0_wire_dq                         => DRAM_DQ,  			                     --                                   .dq
-            sdram_0_wire_dqm                        => DQM,   				                     --                                   .dqm
-            sdram_0_wire_ras_n                      => DRAM_RAS_N,			                     --                                   .ras_n
-            sdram_0_wire_we_n                       => DRAM_WE_N, 			                     --                                   .we_n
+            altpll_0_c0_clk                         => DRAM_CLK, 		      --altpll_0_c0.clk
+			
+				sdram_0_wire_addr                       => DRAM_ADDR, 		 	--sdram_0_wire.addr
+            sdram_0_wire_ba                         => BA,                 --.ba
+            sdram_0_wire_cas_n                      => DRAM_CAS_N,			--.cas_n
+            sdram_0_wire_cke                        => DRAM_CKE,			   --.cke
+            sdram_0_wire_cs_n                       => DRAM_CS_N,          --.cs_n
+            sdram_0_wire_dq                         => DRAM_DQ,  			   --.dq
+            sdram_0_wire_dqm                        => DQM,   				   --.dqm
+            sdram_0_wire_ras_n                      => DRAM_RAS_N,			--.ras_n
+            sdram_0_wire_we_n                       => DRAM_WE_N, 			--.we_n
 
-            clk_clk                                 => CLOCK_50,                                	     --                                clk.clk
+            clk_clk                                 => CLOCK_50,           --clk.clk
 				
-            dm9000a_if_0_s1_export_DATA             => ENET_DATA,             			--             dm9000a_if_0_s1_export.DATA
-            dm9000a_if_0_s1_export_CMD              => ENET_CMD,              --                                   .CMD
-            dm9000a_if_0_s1_export_RD_N             => ENET_RD_N,             --                                   .RD_N
-            dm9000a_if_0_s1_export_WR_N             => ENET_WR_N,             --                                   .WR_N
-            dm9000a_if_0_s1_export_CS_N             => ENET_CS_N,             --                                   .CS_N
-            dm9000a_if_0_s1_export_RST_N            => ENET_RST_N,            --                                   .RST_N
-            dm9000a_if_0_s1_export_INT              => ENET_INT,              --                                   .INT
-            dm9000a_if_0_s1_export_CLK              => ENET_CLK,              --                                   .CLK
+            dm9000a_if_0_s1_export_DATA             => ENET_DATA,          --dm9000a_if_0_s1_export.DATA
+            dm9000a_if_0_s1_export_CMD              => ENET_CMD,           --.CMD
+            dm9000a_if_0_s1_export_RD_N             => ENET_RD_N,          --.RD_N
+            dm9000a_if_0_s1_export_WR_N             => ENET_WR_N,          --.WR_N
+            dm9000a_if_0_s1_export_CS_N             => ENET_CS_N,          --.CS_N
+            dm9000a_if_0_s1_export_RST_N            => ENET_RST_N,         --.RST_N
+            dm9000a_if_0_s1_export_INT              => ENET_INT,           --.INT
+            dm9000a_if_0_s1_export_CLK              => ENET_CLK,           --.CLK
 				
-				tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_read_n_out       => FL_OE_N,       --      tristate_conduit_bridge_0_out.generic_tristate_controller_0_tcm_read_n_out
-            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out         => FL_DQ,         --                                   .generic_tristate_controller_0_tcm_data_out
-            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out => FL_CE_N, --                                   .generic_tristate_controller_0_tcm_chipselect_n_out
-            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out      => FL_WE_N,      --                                   .generic_tristate_controller_0_tcm_write_n_out
-            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      => FL_ADDR       --                                   .generic_tristate_controller_0_tcm_address_out
+				tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_read_n_out       => FL_OE_N,    -- tristate_conduit_bridge_0_out.generic_tristate_controller_0_tcm_read_n_out
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out         => FL_DQ,      --.generic_tristate_controller_0_tcm_data_out
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out => FL_CE_N, 	--.generic_tristate_controller_0_tcm_chipselect_n_out
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out      => FL_WE_N,    --.generic_tristate_controller_0_tcm_write_n_out
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      => FL_ADDR     -- .generic_tristate_controller_0_tcm_address_out
 				
 		);
 

@@ -1,9 +1,9 @@
 /*
  * Lab7 - NIOS II Web Server with Ethernet + User HW
  *
- * Two mandatory threads:
- *   RXTask - receives packets from the network
- *   TXTask - transmits packets to the network
+ * 	Two mandatory threads:
+ *  RXTask - receives packets from the network
+ *  TXTask - transmits packets to the network
  *
  * User_HW: adds 1 to each ASCII char (0xF7 -> 0x00)
  * DHCP is used to obtain the IP address.

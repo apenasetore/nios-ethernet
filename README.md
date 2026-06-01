@@ -39,8 +39,11 @@ lab7/
 1. Abrir Quartus II
 2. **Tools > Qsys** (ou abrir `nios_system.qsys` direto)
 3. Clicar **Generate HDL** (deixar VHDL selecionado)
-4. Esperar gerar sem erros
-5. Fechar Qsys
+4. Fechar Qsys
+
+![Qsys 1](img/qsys1.png)
+![Qsys 2](img/qsys2.png)
+![Qsys 3](img/qsys3.png)
 
 ### 2. Compilar o projeto Quartus (gerar o .sof)
 
@@ -50,6 +53,7 @@ lab7/
 4. Verificar que nao ha erros (warnings sao normais)
 5. O arquivo `output_files/ethernet.sof` sera gerado
 
+
 ### 3. Programar o FPGA
 
 1. Conectar o cabo USB-Blaster na DE2 e ligar a placa
@@ -58,7 +62,26 @@ lab7/
 4. Clicar **Start**
 5. Esperar "Successful"
 
+![Programmer](img/programmer.png)
+
 ### 4. Criar e compilar o BSP (primeira vez)
+
+Abrir o **NIOS II Software**
+
+- Gerar o BSP (botao direito no projeto > Nios II > Generate BSP)
+
+![Generate BSP](img/bsp_generate.png)
+![Generating BSP](img/bsp.png)
+
+- Build BSP (botao direito no BSP > Build Project)
+
+![Build BSP](img/bsp_build.png)
+
+- Build Project (botao direito no app > Build Project)
+
+![Build Project](img/project_build.png)
+
+OU
 
 Abrir o **NIOS II Command Shell** e rodar:
 
@@ -96,6 +119,8 @@ make
 nios2-download -g software/lab7_sw/lab7_sw.elf
 ```
 
+![Download NIOS](img/nios_download.png)
+
 ### 7. Abrir o terminal para ver o IP
 
 Em outro terminal NIOS II Command Shell:
@@ -113,7 +138,7 @@ Deve aparecer algo como:
 Web Server started with RX + TX threads.
 ```
 
-**Importante:** use dois terminais separados - um para o download, outro para o nios2-terminal.
+![Terminal NIOS](img/nios_terminal.png)
 
 ### 8. Testar no navegador
 
@@ -121,12 +146,14 @@ Abrir `http://<IP_DA_PLACA>/` no navegador do PC (que deve estar na mesma rede).
 
 A pagina permite digitar uma string, enviar para a placa, e ver o resultado processado pelo User_HW.
 
+![Pagina inicial](img/htm02.png)
+![Resultado processado](img/html01.png)
+
 **Alternativa:** abrir o arquivo `index.html` localmente no navegador e colocar o IP da placa no campo de configuracao.
 
-## Troubleshooting
+## Autores
 
-- **DHCP nao responde / IP 0.0.0.0:** verificar se o cabo Ethernet esta conectado da DE2 ao roteador (nao direto no PC). Verificar LEDs na porta Ethernet da DE2.
-- **Compilacao Quartus falha:** verificar se o QSYS foi gerado antes (passo 1).
-- **nios2-download falha:** verificar se o .sof foi programado antes (passo 3). A DE2 perde o .sof toda vez que desliga.
-- **Browser pede senha:** tentar em aba anonima ou outro navegador.
-- **Apos desligar/ligar a DE2:** repetir passos 3, 6 e 7 (programar .sof, download .elf, abrir terminal).
+- Etore Maloso Tronconi
+- Gabriel Yudi Harada
+
+
